@@ -1,0 +1,36 @@
+Copyright (c) 2026 Privatiser. All rights reserved.
+
+Terms of Use
+
+Privatiser is provided as a free tool for personal and commercial use. You may
+use the website, browser extension, VS Code extension, and CLI tool to anonymize
+and deanonymize text for your own purposes.
+
+Restrictions
+
+You may not, without prior written permission from the author:
+
+- Copy, reproduce, or redistribute the source code, in whole or in part
+- Modify, adapt, or create derivative works based on the software
+- Reverse-engineer, decompile, or disassemble the software beyond what is
+  permitted by applicable law
+- Sell, sublicense, lease, or otherwise commercially distribute the software
+  itself
+- Remove or alter any copyright notices or proprietary markings
+
+Disclaimer of Warranty
+
+Privatiser is provided "as is" without warranty of any kind, express or implied,
+including but not limited to the warranties of merchantability, fitness for a
+particular purpose, and non-infringement. The author makes no guarantee that all
+sensitive data will be detected or anonymized.
+
+Limitation of Liability
+
+In no event shall the author be liable for any claim, damages, or other
+liability arising from the use of or inability to use the software, including
+but not limited to any failure to detect or anonymize sensitive information.
+
+Contact
+
+For licensing enquiries, please contact admin@privatiser.net.

@@ -1,0 +1,144 @@
+{
+  "name": "privatiser",
+  "displayName": "Privatiser",
+  "description": "Anonymize sensitive data (IPs, API keys, passwords, PII) before sharing with AI. 100% local.",
+  "version": "0.6.3",
+  "publisher": "privatiser",
+  "license": "SEE LICENSE IN LICENSE",
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "anonymize",
+    "redact",
+    "privacy",
+    "secrets",
+    "pii"
+  ],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "privatiser.anonymize",
+        "title": "Privatiser: Anonymize Selection"
+      },
+      {
+        "command": "privatiser.copyAnonymized",
+        "title": "Privatiser: Copy Anonymized Selection"
+      },
+      {
+        "command": "privatiser.anonymizeFile",
+        "title": "Privatiser: Anonymize Entire File"
+      },
+      {
+        "command": "privatiser.deanonymize",
+        "title": "Privatiser: Deanonymize Selection"
+      },
+      {
+        "command": "privatiser.deanonymizeFile",
+        "title": "Privatiser: Deanonymize Entire File"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "privatiser.anonymize",
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a",
+        "when": "editorHasSelection"
+      },
+      {
+        "command": "privatiser.copyAnonymized",
+        "key": "ctrl+shift+j",
+        "mac": "cmd+shift+j",
+        "when": "editorHasSelection"
+      },
+      {
+        "command": "privatiser.deanonymize",
+        "key": "ctrl+shift+d",
+        "mac": "cmd+shift+d",
+        "when": "editorHasSelection"
+      },
+      {
+        "command": "privatiser.anonymizeFile",
+        "key": "ctrl+alt+a",
+        "mac": "cmd+alt+a"
+      },
+      {
+        "command": "privatiser.deanonymizeFile",
+        "key": "ctrl+alt+d",
+        "mac": "cmd+alt+d"
+      }
+    ],
+    "configuration": {
+      "title": "Privatiser",
+      "properties": {
+        "privatiser.customWords": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "Words or phrases to always redact, regardless of pattern matching (e.g. your company name, internal hostnames)."
+        },
+        "privatiser.allowlist": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "Values that should never be redacted (e.g. 'localhost', 'example.com')."
+        },
+        "privatiser.categories.secrets": {
+          "type": "boolean",
+          "default": true,
+          "description": "Detect secrets and API keys (AWS, OpenAI, GitHub, JWTs, bearer tokens, etc.)."
+        },
+        "privatiser.categories.network": {
+          "type": "boolean",
+          "default": true,
+          "description": "Detect network identifiers: IP addresses, domain names, email addresses, MAC addresses."
+        },
+        "privatiser.categories.pii": {
+          "type": "boolean",
+          "default": true,
+          "description": "Detect PII: phone numbers, credit card numbers, SSNs, passports, IBANs."
+        },
+        "privatiser.categories.aws": {
+          "type": "boolean",
+          "default": true,
+          "description": "Detect AWS resource identifiers: account IDs, ARNs, S3 buckets."
+        },
+        "privatiser.categories.cloud": {
+          "type": "boolean",
+          "default": true,
+          "description": "Detect Azure and GCP resource identifiers."
+        },
+        "privatiser.categories.identifiers": {
+          "type": "boolean",
+          "default": true,
+          "description": "Detect generic identifiers: hostnames, usernames, database names, UUIDs, etc."
+        }
+      }
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "privatiser.anonymize",
+          "group": "privatiser@1",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "privatiser.copyAnonymized",
+          "group": "privatiser@2",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "privatiser.deanonymize",
+          "group": "privatiser@3",
+          "when": "editorHasSelection"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privatiser</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Privatiser</h1>
+        <p class="subtitle">Anonymize sensitive content before sharing with AI</p>
+        <button id="theme-toggle" class="icon-btn" title="Toggle theme">
+            <span class="theme-icon">&#9790;</span>
+        </button>
+    </header>
+
+    <nav class="tabs">
+        <button class="tab active" data-tab="anonymize">Anonymize</button>
+        <button class="tab" data-tab="deanonymize">Deanonymize</button>
+    </nav>
+
+    <main>
+        <!-- Anonymize Tab -->
+        <section id="tab-anonymize" class="tab-content active">
+            <div class="panels">
+                <div class="panel">
+                    <div class="panel-header">
+                        <label for="anon-input">Input</label>
+                        <button class="btn-sm" id="paste-btn" title="Paste from clipboard">Paste</button>
+                    </div>
+                    <textarea id="anon-input" placeholder="Paste your text here — IPs, configs, code, logs..."></textarea>
+                </div>
+                <div class="panel">
+                    <div class="panel-header">
+                        <label for="anon-output">Anonymized Output</label>
+                        <button class="btn-sm" id="copy-output-btn" title="Copy to clipboard">Copy</button>
+                    </div>
+                    <textarea id="anon-output" readonly placeholder="Anonymized text will appear here..."></textarea>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="anonymize-btn" class="btn-primary">Anonymize</button>
+                <button id="clear-btn" class="btn-secondary">Clear</button>
+                <span id="anon-status" class="status"></span>
+            </div>
+
+            <details id="mapping-section" class="mapping-section">
+                <summary>Mapping Table (<span id="mapping-count">0</span> items)</summary>
+                <div class="mapping-actions">
+                    <button class="btn-sm" id="copy-mapping-btn">Copy Mapping JSON</button>
+                    <button class="btn-sm" id="download-mapping-btn">Download Mapping</button>
+                </div>
+                <div class="table-wrapper">
+                    <table id="mapping-table">
+                        <thead>
+                            <tr>
+                                <th>Pseudonym</th>
+                                <th>Original</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <textarea id="mapping-json" rows="4" readonly placeholder="Mapping JSON will appear here..."></textarea>
+            </details>
+        </section>
+
+        <!-- Deanonymize Tab -->
+        <section id="tab-deanonymize" class="tab-content">
+            <div class="panels">
+                <div class="panel">
+                    <div class="panel-header">
+                        <label for="deanon-input">Anonymized Text</label>
+                    </div>
+                    <textarea id="deanon-input" placeholder="Paste anonymized text here..."></textarea>
+                </div>
+                <div class="panel">
+                    <div class="panel-header">
+                        <label for="deanon-output">Restored Output</label>
+                        <button class="btn-sm" id="copy-restored-btn" title="Copy to clipboard">Copy</button>
+                    </div>
+                    <textarea id="deanon-output" readonly placeholder="Restored text will appear here..."></textarea>
+                </div>
+            </div>
+
+            <div class="panel" style="margin-top: 1rem;">
+                <div class="panel-header">
+                    <label for="deanon-mapping">Mapping JSON</label>
+                    <button class="btn-sm" id="load-mapping-btn">Load from File</button>
+                    <input type="file" id="mapping-file-input" accept=".json" hidden>
+                </div>
+                <textarea id="deanon-mapping" rows="5" placeholder='Paste the mapping JSON here, or load from file...'></textarea>
+            </div>
+
+            <div class="actions">
+                <button id="deanonymize-btn" class="btn-primary">Deanonymize</button>
+                <span id="deanon-status" class="status"></span>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Privatiser v0.1.0 &mdash; All processing happens locally on your machine.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

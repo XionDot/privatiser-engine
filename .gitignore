@@ -1,0 +1,17 @@
+dist-ext/
+node_modules/
+worker/node_modules/
+site-old/
+scratch/
+wrangler_output.txt
+__pycache__/
+*.egg-info/
+.venv/
+.pytest_cache/
+*.pyc
+.DS_Store
+site/app.js
+site/privatiser.js
+scripts/private.pem
+desktop-rust/target/
+scratch/

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privatiser</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>Privatiser</h1>
+    <button id="theme-toggle" class="icon-btn" title="Toggle theme">&#9790;</button>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="anonymize">Anonymize</button>
+    <button class="tab" data-tab="deanonymize">Restore</button>
+    <button class="tab" data-tab="settings">Settings</button>
+  </nav>
+
+  <!-- Anonymize Tab -->
+  <section id="tab-anonymize" class="tab-content active">
+    <div class="field">
+      <div class="field-header">
+        <label>Input</label>
+        <button class="btn-sm" id="paste-btn">Paste</button>
+      </div>
+      <textarea id="anon-input" rows="8" placeholder="Paste sensitive text here..."></textarea>
+    </div>
+
+    <div class="actions">
+      <button id="anonymize-btn" class="btn-primary">Anonymize</button>
+      <button id="clear-btn" class="btn-sm">Clear</button>
+    </div>
+
+    <div class="field">
+      <div class="field-header">
+        <label>Anonymized Output</label>
+        <button class="btn-sm" id="copy-output-btn">Copy</button>
+      </div>
+      <textarea id="anon-output" rows="8" readonly placeholder="Anonymized text appears here..."></textarea>
+    </div>
+
+    <div id="mapping-section" class="mapping-section" style="display:none">
+      <div class="field-header">
+        <label>Mapping (<span id="mapping-count">0</span> items)</label>
+        <button class="btn-sm" id="copy-mapping-btn">Copy JSON</button>
+      </div>
+      <div class="mapping-table-wrap">
+        <table id="mapping-table">
+          <thead><tr><th>Pseudonym</th><th>Original</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <span id="anon-status" class="status"></span>
+  </section>
+
+  <!-- Deanonymize Tab -->
+  <section id="tab-deanonymize" class="tab-content">
+    <div class="field">
+      <label>Anonymized Text</label>
+      <textarea id="deanon-input" rows="6" placeholder="Paste anonymized text..."></textarea>
+    </div>
+    <div class="field">
+      <div class="field-header">
+        <label>Mapping JSON</label>
+        <button class="btn-sm" id="load-mapping-btn">Load</button>
+        <input type="file" id="mapping-file" accept=".json" hidden>
+      </div>
+      <textarea id="deanon-mapping" rows="4" placeholder='{"pseudonym": "original", ...}'></textarea>
+    </div>
+    <div class="actions">
+      <button id="deanonymize-btn" class="btn-primary">Restore</button>
+    </div>
+    <div class="field">
+      <div class="field-header">
+        <label>Restored Output</label>
+        <button class="btn-sm" id="copy-restored-btn">Copy</button>
+      </div>
+      <textarea id="deanon-output" rows="6" readonly placeholder="Restored text appears here..."></textarea>
+    </div>
+    <span id="deanon-status" class="status"></span>
+  </section>
+
+  <!-- Settings Tab -->
+  <section id="tab-settings" class="tab-content">
+    <div class="setting">
+      <label class="toggle-label">
+        <input type="checkbox" id="auto-intercept" checked>
+        <span>Auto-intercept paste on AI sites</span>
+      </label>
+      <p class="hint">Automatically anonymize when pasting into ChatGPT, Claude, Gemini, Copilot</p>
+    </div>
+    <div class="setting">
+      <label class="toggle-label">
+        <input type="checkbox" id="auto-deanonymize-copy" checked>
+        <span>Auto-deanonymize on copy</span>
+      </label>
+      <p class="hint">Restore original values when copying AI responses to clipboard</p>
+    </div>
+    <div class="setting">
+      <label class="toggle-label">
+        <input type="checkbox" id="show-badge" checked>
+        <span>Show notification badge</span>
+      </label>
+      <p class="hint">Show count of anonymized items on the extension icon</p>
+    </div>
+    <div class="setting">
+      <label class="toggle-label">
+        <input type="checkbox" id="store-mapping">
+        <span>Remember mappings across sessions</span>
+      </label>
+      <p class="hint">Store mappings in browser storage for later deanonymization</p>
+    </div>
+
+    <div class="setting-group">
+      <h3 class="setting-group-title">Pattern Categories</h3>
+      <p class="hint" style="margin-left:0;margin-bottom:8px">Toggle which types of data get anonymized</p>
+      <div class="category-toggles">
+        <label class="toggle-label"><input type="checkbox" class="cat-toggle" data-cat="secrets" checked><span>Secrets</span></label>
+        <label class="toggle-label"><input type="checkbox" class="cat-toggle" data-cat="network" checked><span>Network</span></label>
+        <label class="toggle-label"><input type="checkbox" class="cat-toggle" data-cat="pii" checked><span>PII</span></label>
+        <label class="toggle-label"><input type="checkbox" class="cat-toggle" data-cat="aws" checked><span>AWS</span></label>
+        <label class="toggle-label"><input type="checkbox" class="cat-toggle" data-cat="cloud" checked><span>Cloud</span></label>
+        <label class="toggle-label"><input type="checkbox" class="cat-toggle" data-cat="identifiers" checked><span>Identifiers</span></label>
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <h3 class="setting-group-title">Custom Words to Redact</h3>
+      <p class="hint" style="margin-left:0;margin-bottom:6px">Always redacted, regardless of pattern (one per line)</p>
+      <textarea id="custom-words-input" rows="3" placeholder="mycompany&#10;john.smith&#10;prod-server-1"></textarea>
+      <button id="save-custom-words-btn" class="btn-sm" style="margin-top:4px">Save Custom Words</button>
+      <span id="custom-words-status" class="status"></span>
+    </div>
+
+    <div class="setting-group">
+      <h3 class="setting-group-title">Allowlist</h3>
+      <p class="hint" style="margin-left:0;margin-bottom:6px">Values that should never be anonymized (one per line)</p>
+      <textarea id="allowlist-input" rows="3" placeholder="192.168.1.1&#10;admin@company.com"></textarea>
+      <button id="save-allowlist-btn" class="btn-sm" style="margin-top:4px">Save Allowlist</button>
+      <span id="allowlist-status" class="status"></span>
+    </div>
+  </section>
+
+  <footer>All processing happens locally. Nothing leaves your browser.</footer>
+
+  <script src="../src/privatiser.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

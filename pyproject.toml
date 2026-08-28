@@ -1,0 +1,41 @@
+[project]
+name = "privatiser"
+version = "0.1.0"
+description = "Content anonymizer/pseudonymizer — redact sensitive data before sharing with AI"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [{name = "Privatiser", email = "admin@privatiser.net"}]
+keywords = ["anonymize", "privacy", "redact", "pii", "secrets", "ai"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "click>=8.0",
+    "pyperclip>=1.8",
+]
+
+[project.urls]
+Homepage = "https://privatiser.net"
+Documentation = "https://privatiser.net"
+
+[project.optional-dependencies]
+web = ["flask>=3.0"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+privatiser = "privatiser.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

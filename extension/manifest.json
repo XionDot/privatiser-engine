@@ -1,0 +1,111 @@
+{
+  "manifest_version": 3,
+  "name": "Privatiser",
+  "version": "0.6.1",
+  "description": "Anonymize sensitive content before pasting into AI chats. Redacts IPs, emails, API keys, and more.",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "activeTab"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "scripts": ["src/background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chat.openai.com/*",
+        "https://chatgpt.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*",
+        "https://aistudio.google.com/*",
+        "https://notebooklm.google.com/*",
+        "https://copilot.microsoft.com/*",
+        "https://www.bing.com/*",
+        "https://grok.com/*",
+        "https://x.com/*",
+        "https://perplexity.ai/*",
+        "https://www.perplexity.ai/*",
+        "https://chat.mistral.ai/*",
+        "https://meta.ai/*",
+        "https://www.meta.ai/*",
+        "https://deepseek.com/*",
+        "https://chat.deepseek.com/*",
+        "https://character.ai/*",
+        "https://www.character.ai/*",
+        "https://poe.com/*",
+        "https://you.com/*",
+        "https://pi.ai/*",
+        "https://kimi.ai/*",
+        "https://groq.com/*",
+        "https://openrouter.ai/*",
+        "https://cohere.com/*",
+        "https://coral.cohere.com/*",
+        "https://phind.com/*",
+        "https://huggingface.co/*",
+        "https://together.ai/*"
+      ],
+      "js": ["src/privatiser.js", "src/content.js"],
+      "css": ["src/content.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["src/privatiser.js"],
+      "matches": [
+        "https://chat.openai.com/*",
+        "https://chatgpt.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*",
+        "https://aistudio.google.com/*",
+        "https://notebooklm.google.com/*",
+        "https://copilot.microsoft.com/*",
+        "https://www.bing.com/*",
+        "https://grok.com/*",
+        "https://x.com/*",
+        "https://perplexity.ai/*",
+        "https://www.perplexity.ai/*",
+        "https://chat.mistral.ai/*",
+        "https://meta.ai/*",
+        "https://www.meta.ai/*",
+        "https://deepseek.com/*",
+        "https://chat.deepseek.com/*",
+        "https://character.ai/*",
+        "https://www.character.ai/*",
+        "https://poe.com/*",
+        "https://you.com/*",
+        "https://pi.ai/*",
+        "https://kimi.ai/*",
+        "https://groq.com/*",
+        "https://openrouter.ai/*",
+        "https://cohere.com/*",
+        "https://coral.cohere.com/*",
+        "https://phind.com/*",
+        "https://huggingface.co/*",
+        "https://together.ai/*"
+      ]
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "privatiser@example.com",
+      "strict_min_version": "142.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  }
+}
